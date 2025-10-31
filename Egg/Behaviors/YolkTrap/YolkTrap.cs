@@ -25,7 +25,6 @@ public class YolkTrap : NetworkBehaviour
         if (hit.collider != null)
         {
             transform.up = hit.normal;
-            //transform.position = hit.point + hit.normal * GetComponent<BoxCollider2D>().size.y / 4;
 
             Bounds hitColliderBounds = hit.collider.bounds;
 
@@ -36,23 +35,10 @@ public class YolkTrap : NetworkBehaviour
                 transform.position = (Vector2)hit.transform.position + hit.normal * hitColliderBounds.size.y/2;
             } else
             {
-                /*float distanceFromCenter = (hit.point - (Vector2)hitColliderBounds.center + (hit.normal * hitColliderBounds.size.y/2)).x;
-
-                float distanceOver = Mathf.Abs(Mathf.Abs(distanceFromCenter) + transform.localScale.x / 2 - hitColliderBounds.size.x / 2);
-
-                if (distanceOver > 0)
-                {
-                    Debug.Log(distanceOver);
-
-                    transform.localScale = new Vector2(transform.localScale.x - distanceOver, transform.localScale.y);
-                    transform.position += transform.right * distanceOver /2 * -Mathf.Sign(distanceFromCenter);
-                }*/
-
                 float distanceFromCenter = (hit.point - ((Vector2)hitColliderBounds.center + (hit.normal * hitColliderBounds.size.y / 2))).x;
 
                 if (Mathf.Abs(distanceFromCenter) + transform.localScale.x/2 > hitColliderBounds.size.x/2)
                 {
-                    Debug.Log("RAAAH");
                     transform.position = (Vector2)hitColliderBounds.center + (Vector2)transform.right * (hitColliderBounds.size.x / 2 * Mathf.Sign(distanceFromCenter) - (collider.bounds.size.x / 2 * Mathf.Sign(distanceFromCenter))) + (Vector2)transform.up * hitColliderBounds.size.y / 2;
                 } else
                 {
@@ -94,25 +80,7 @@ public class YolkTrap : NetworkBehaviour
             }
         }
     }
-    /* [TargetRpc]
-     void TargetNerfVelocity(NetworkConnection conn, PlayerController player)
-     {
-         player.GetComponent<Rigidbody2D>().velocity /= 4;
-     }
- */
-    /*private void OnTriggerEnter2D(Collider2D collider)
-    {
-        if (collider.gameObject.layer == 6 && !activatedTrap)
-        {
-            GetComponent<Rigidbody2D>().isKinematic = true;
-            GetComponent<Rigidbody2D>().velocity = Vector3.zero;
-            transform.position = new Vector3(transform.position.x, collider.transform.position.y + collider.bounds.size.y * 0.5f + 0.5f * GetComponent<BoxCollider2D>().bounds.size.y);
-            activatedTrap = true;
 
-
-
-        }
-    }*/
     private void OnTriggerStay2D(Collider2D collider)
     {
         
